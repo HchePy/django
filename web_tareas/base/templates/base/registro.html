@@ -1,0 +1,23 @@
+{% extends 'base/principal.html' %}
+{% block content %}
+<div>
+<form method="POST">
+{% csrf_token %}
+<fieldset>
+    <legend>Crear nuevo usuario</legend>
+    {{ form.as_p }}
+</fieldset>
+    <button type="submit">Ingresar</button>
+</form>
+</div>
+ 
+{% if messages %}
+    {% for message in messages %}
+     <p>{{message.tags}} : {{ message }}</p>
+    {% endfor %}
+{% endif %}
+ 
+<div>
+    <small>Ya tienes una cuenta <a href="{% url 'login' %}">Ingresar aqui</a></small>
+</div>
+{% endblock content %}

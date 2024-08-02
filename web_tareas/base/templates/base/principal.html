@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.barra {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+.barra h1, .barra h3 {
+    margin: 5px;
+}
+
+.barra a {
+    color: #ff6347;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a.eliminar {
+    font-size: 1.2em;
+    margin-left: 10px;
+    color: #dc3545;
+}
+
+.envoltorio {
+    margin-top: 20px;
+}
+
+.envoltorio-tarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.titulo-tarea {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.icono-tarea-completa, .icono-tarea-incompleta {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.icono-tarea-completa {
+    background-color: #28a745;
+    mask: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxLjk5OTkgNDIuMjc0OEw5LjgyOTM3IDI5LjQ2MDdMMTQuNzc1NSAyNC4wODQ4TDIyLjAwMDEgMzAuOTY0OUw0OC4yNDI4IDguNzE2MzhMMzIuNzYwNiA0OS4yNzI1TDIxLjk5OTkgNDIuMjc0OFoiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==') center / contain no-repeat;
+}
+
+.icono-tarea-incompleta {
+    background-color: #dc3545;
+    mask: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMyIDY0QzE0LjM2MyA2NCAwIDQ5LjYzNyAwIDMyQzAgMTQuMzYzIDE0LjM2MyAwIDMyIDBDNDkuNjM3IDAgNjQgMTQuMzYzIDY0IDMyQzY0IDQ5LjYzNyA0OS42MzcgNjQgMzIgNjRaTTMyIDU5LjI3MjVDNDUuODUxIDU5LjI3MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0NUM1OS4yNzI1IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMMjUuNTUyNSAzNi43NTI1QzQwLjM3MjUgMTMuOTkyNSA1OS4yNzI1IDQ1Ljg1MSA1OS4yNzI1IDQ0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzU5LjI3MjUgMjEuNzgyNSA0MC4yMTc1IDcuNzI3NDUgMjAgMzZMNjQuMzM2IDIxLjc4MjUgNDAuMjE3NSA3LjcyNzQ1IDIwIDM2TDI1LjU1MjUgMzYuNzUyNUM0MC4zNzI1IDEzLjk5MjUgNTkuMjcyNSA0NS44NTEgNTkuMjcyNSA0QzY0IDE0LjM2MyA0OS42MzcgMCAzMiAwWm0tNS4zMTI1IDQ4LjQxNDRMMjEgMzEuODMxNGwtNi41ODc1LTYuNTg3NUwxNC4wNzI1IDI5LjI5MTVMMjAuMTA3NiAzNS4zMzYyTDM3Ljc2MTMgMTcuNjg3NEw0Mi4xNjMgMjIuMDg3M0wyNi40Nzg2IDM3Ljc2MDh6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPgo=') center / contain no-repeat;
+}
+
+input[type="text"], input[type="submit"] {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: calc(100% - 22px); /* For consistent padding */
+    box-sizing: border-box;
+}
+
+form {
+    margin: 20px 0;
+}
+
+h3 {
+    margin: 20px 0;
+}
+
+.add-task {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 0;
+}
+
+.add-task a {
+    color: #28a745;
+    font-size: 1.5em;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    {% block content %}
+
+    {% endblock content %}
+
+</div>
+</body>
+</html>
